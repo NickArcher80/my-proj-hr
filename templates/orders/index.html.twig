@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Orders index{% endblock %}
+
+{% block body %}
+    <h1>Orders index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Partner</th>
+                <th>Sum</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for order in orders %}
+            <tr>
+                <td><a href="{{ path('orders_edit', {'id': order.id}) }}" target='_about:blank'>{{ order.id }}</a></td>
+                <td>{{order.partner.name}}</td>
+                <td><b>{{ order.sum}}</b></td>
+                <td>{{ order.status|replace({'0':"новый",'10':"подтвержден",'20':"завершен"})}}</td>
+            </tr>
+            {%for prod in order.products%}
+            <tr>
+              <td>{{prod.product.name}}</td>
+            </tr>
+            {%endfor%}
+        {% else %}
+            <tr>
+                <td colspan="7">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('orders_new') }}">Create new</a>
+{% endblock %}
